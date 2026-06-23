@@ -1,5 +1,5 @@
-// <nowiki>
-// commonsCat/app.js
+﻿// <nowiki>
+// Catapult/app.js
 // License: GNU General Public License
 // Author: Vera de Kok (1Veertje)
 // Date: 2026-06-05
@@ -26,7 +26,7 @@
 			categoryContains: 'P4224',
 			categoryCombinesTopics: 'P971'
 		},
-		mappingPage: 'User:1VeertjeBot/commonsCat/mappings.json',
+		mappingPage: 'User:1Veertje/Catapult/mappings.json',
 		items: {
 			human: 'Q5',
 			male: 'Q6581097',
@@ -49,13 +49,13 @@
 		maxOccupationCount: 8,
 		maxCountryCount: 6,
 		lateCandidateCheckTimeout: 1200,
-		version: '2026-06-21.1',
-		summary: 'Creating Commons category from Wikidata using [[User:1VeertjeBot/commonsCat.js|commonsCat]]',
-		debug: window.location.search.indexOf( 'commonsCatDebug=1' ) !== -1
+		version: '2026-06-24.1',
+		summary: 'Creating Commons category from Wikidata using [[User:1Veertje/Catapult/app.js|Catapult]]',
+		debug: window.location.search.indexOf( 'catapultDebug=1' ) !== -1
 	};
 
-	window.commonsCat = window.commonsCat || {};
-	window.commonsCat.appVersion = CONFIG.version;
+	window.catapult = window.catapult || {};
+	window.catapult.appVersion = CONFIG.version;
 
 	var model = createModel();
 	var state = createStateFacade( model );
@@ -463,7 +463,7 @@
 			'p-cactions',
 			'#',
 			'new category',
-			'commonsCatCreate',
+			'catapultCreate',
 			categoryDisambiguation ?
 				'Create or update the Commons category disambiguation page' :
 				'Create or inspect a Commons category for this person'
@@ -545,7 +545,7 @@
 		if (
 			state.hasCommonsSitelink ||
 			!$group.length ||
-			$( '#CommonsCatMultilingualSitesButton' ).length
+			$( '#CatapultMultilingualSitesButton' ).length
 		) {
 			return !!$group.length;
 		}
@@ -559,14 +559,14 @@
 		}
 
 		$button = makeButton( {
-			id: 'CommonsCatMultilingualSitesButton',
+			id: 'CatapultMultilingualSitesButton',
 			label: 'new category',
 			title: isCategoryDisambiguationItem( state.entity ) ?
 				'Create or update the Commons category disambiguation page' :
 				'Create or inspect a Commons category for this person',
 			framed: true,
 			flags: [ 'progressive' ],
-			classes: [ 'commonscat-sitelink-button', 'commonscat-commons-logo-button' ]
+			classes: [ 'catapult-sitelink-button', 'catapult-commons-logo-button' ]
 		}, function ( event ) {
 			if ( event && event.preventDefault ) {
 				event.preventDefault();
@@ -1027,7 +1027,7 @@
 			commonsCategoryLink( hub.baseTitle ),
 			hub.baseExists ? ' exists on Commons.' : ' does not exist on Commons.'
 		) );
-		$panel = $( '#CommonsCatPanelBody' );
+		$panel = $( '#CatapultPanelBody' );
 		if ( hub.suffixedTitles.length ) {
 			$panel.append(
 				$( '<strong>' ).text( 'Existing disambiguated categories' ),
@@ -1122,7 +1122,7 @@
 
 	function buildCategoryDisambiguationTargetWarning( hub ) {
 		return $( '<p>', {
-			id: 'CommonsCatDisambiguationTargetWarning'
+			id: 'CatapultDisambiguationTargetWarning'
 		} ).css( {
 			color: '#72777d',
 			margin: '6px 0 0'
@@ -1130,7 +1130,7 @@
 	}
 
 	function refreshCategoryDisambiguationTargetWarning( hub ) {
-		$( '#CommonsCatDisambiguationTargetWarning' ).text(
+		$( '#CatapultDisambiguationTargetWarning' ).text(
 			categoryDisambiguationTargetWarning( hub )
 		);
 	}
@@ -1147,9 +1147,9 @@
 	}
 
 	function appendCategoryDisambiguationActions( hub ) {
-		var $shell = $( '#CommonsCatPanel' );
+		var $shell = $( '#CatapultPanel' );
 		var $actions = $( '<div>', {
-			id: 'CommonsCatPanelActions'
+			id: 'CatapultPanelActions'
 		} ).css( {
 			borderTop: '1px solid #eaecf0',
 			display: 'flex',
@@ -1158,7 +1158,7 @@
 		} );
 
 		$actions.append( makeButton( {
-			id: 'CommonsCatPrimaryAction',
+			id: 'CatapultPrimaryAction',
 			label: hub.action === 'create' ? 'create' : 'disambiguate',
 			icon: 'articles',
 			flags: [ 'primary', 'progressive' ],
@@ -1166,14 +1166,14 @@
 		}, function () {
 			executeCategoryDisambiguationHub( hub );
 		} ) );
-		$( '#CommonsCatVersion' ).detach();
+		$( '#CatapultVersion' ).detach();
 		$shell.append( $actions, buildVersionFooter() );
 	}
 
 	function appendVersionAndCloseActions() {
-		var $shell = $( '#CommonsCatPanel' );
+		var $shell = $( '#CatapultPanel' );
 
-		$( '#CommonsCatVersion' ).detach();
+		$( '#CatapultVersion' ).detach();
 		$shell.append( buildVersionFooter() );
 	}
 
@@ -1303,7 +1303,7 @@
 	function executePreparedCategoryDisambiguationHub( hub, links ) {
 		var chain = $.Deferred().resolve().promise();
 
-		$( '#CommonsCatPanel button' ).prop( 'disabled', true );
+		$( '#CatapultPanel button' ).prop( 'disabled', true );
 		renderProgressPanel( 'Working on ' + hub.baseTitle + '...', [
 			{ label: 'Prepare existing category', status: 'working' },
 			{ label: 'Write Commons disambiguation category', status: 'waiting' },
@@ -1333,7 +1333,7 @@
 			markProgressLabelDone( 'Set Commons sitelink on Wikidata item' );
 			model.workflow.phase = 'complete';
 			state.hasCommonsSitelink = true;
-			$( '#CommonsCatMultilingualSitesButton' ).remove();
+			$( '#CatapultMultilingualSitesButton' ).remove();
 			renderPanel( sentence(
 				'Created or updated ',
 				commonsCategoryLink( hub.baseTitle ),
@@ -1372,7 +1372,7 @@
 			action: 'edit',
 			title: hub.baseTitle,
 			text: buildDisambiguationCategoryText( hub.baseText, links ),
-			summary: 'Creating or updating Commons category disambiguation page using [[User:1VeertjeBot/commonsCat.js|commonsCat]]',
+			summary: 'Creating or updating Commons category disambiguation page using [[User:1Veertje/Catapult/app.js|Catapult]]',
 			format: 'json'
 		};
 
@@ -1387,7 +1387,7 @@
 			action: 'move',
 			from: fromTitle,
 			to: normalizeCategoryTitle( toTitle ),
-			reason: 'Disambiguating Commons category using [[User:1VeertjeBot/commonsCat.js|commonsCat]]',
+			reason: 'Disambiguating Commons category using [[User:1Veertje/Catapult/app.js|Catapult]]',
 			movetalk: 1,
 			format: 'json'
 		} );
@@ -1427,7 +1427,7 @@
 			assertuser: mw.config.get( 'wgUserName' ),
 			linksite: 'commonswiki',
 			linktitle: normalizeCategoryTitle( title ),
-			summary: 'Updating Commons category after disambiguation by commonsCat',
+			summary: 'Updating Commons category after disambiguation by catapult',
 			format: 'json'
 		} );
 	}
@@ -1442,7 +1442,7 @@
 				claim: claim.id,
 				snaktype: 'value',
 				value: JSON.stringify( categoryName ),
-				summary: 'Updating Commons category after category move by commonsCat',
+				summary: 'Updating Commons category after category move by catapult',
 				format: 'json'
 			} );
 		}
@@ -1453,7 +1453,7 @@
 			property: CONFIG.properties.commonsCategory,
 			snaktype: 'value',
 			value: JSON.stringify( categoryName ),
-			summary: 'Adding moved Commons category after disambiguation by commonsCat',
+			summary: 'Adding moved Commons category after disambiguation by catapult',
 			format: 'json'
 		} );
 	}
@@ -1759,7 +1759,7 @@
 		}
 
 		query = [
-			'SELECT DISTINCT ?commonsCat WHERE {',
+			'SELECT DISTINCT ?categoryName WHERE {',
 			'  VALUES ?employer { ' + employerIds.map( function ( qid ) {
 				return 'wd:' + qid;
 			} ).join( ' ' ) + ' }',
@@ -1768,8 +1768,8 @@
 			'  { ?category wdt:' + CONFIG.properties.categoryCombinesTopics + ' ?employer . }',
 			'  UNION',
 			'  { ?category wdt:' + CONFIG.properties.employer + ' ?employer . }',
-			'  ?category wdt:' + CONFIG.properties.commonsCategory + ' ?commonsCat .',
-			'  FILTER( STRSTARTS( LCASE( STR( ?commonsCat ) ), "faculty of " ) )',
+			'  ?category wdt:' + CONFIG.properties.commonsCategory + ' ?categoryName .',
+			'  FILTER( STRSTARTS( LCASE( STR( ?categoryName ) ), "faculty of " ) )',
 			'}'
 		].join( '\n' );
 
@@ -1786,7 +1786,7 @@
 			state.facultyCategoryNames = uniqueIds(
 				guessedNames.concat(
 					( data.results && data.results.bindings || [] ).map( function ( row ) {
-						return row.commonsCat && row.commonsCat.value;
+						return row.categoryName && row.categoryName.value;
 					} ).filter( Boolean ).map( function ( name ) {
 						return name.replace( /^Category:/i, '' ).trim();
 					} )
@@ -2835,12 +2835,12 @@
 	}
 
 	function renderPanel( message ) {
-		var $panel = $( '#CommonsCatPanel' );
+		var $panel = $( '#CatapultPanel' );
 		var $body;
 
 		if ( !$panel.length ) {
 			$panel = $( '<div>', {
-				id: 'CommonsCatPanel'
+				id: 'CatapultPanel'
 			} ).css( {
 				background: '#fff',
 				border: '1px solid #a2a9b1',
@@ -2898,7 +2898,7 @@
 		);
 
 		$body = $( '<div>', {
-			id: 'CommonsCatPanelBody'
+			id: 'CatapultPanelBody'
 		} ).css( {
 			flex: '1 1 auto',
 			minHeight: 0,
@@ -2916,7 +2916,7 @@
 
 	function buildVersionFooter() {
 		return $( '<div>', {
-			id: 'CommonsCatVersion'
+			id: 'CatapultVersion'
 		} ).css( {
 			color: '#72777d',
 			flex: '0 0 auto',
@@ -3013,7 +3013,7 @@
 		state.progressTitle = title || state.progressTitle || 'Working...';
 		state.progressSteps = steps || state.progressSteps || [];
 		renderPanel( state.progressTitle );
-		$panel = $( '#CommonsCatPanelBody' );
+		$panel = $( '#CatapultPanelBody' );
 		$list = $( '<ul>' ).css( {
 			marginBottom: 0
 		} );
@@ -3087,7 +3087,7 @@
 	}
 
 	function renderSuggestions() {
-		var $panel = $( '#CommonsCatPanelBody' );
+		var $panel = $( '#CatapultPanelBody' );
 		var $shell;
 		var categoryText = buildCategoryText();
 		var mode = currentWorkflowMode();
@@ -3098,8 +3098,8 @@
 				panelStatusMessage()
 		);
 
-		$panel = $( '#CommonsCatPanelBody' );
-		$shell = $( '#CommonsCatPanel' );
+		$panel = $( '#CatapultPanelBody' );
+		$shell = $( '#CatapultPanel' );
 		if ( mode === 'linked-base-disambiguate' || mode === 'linked-base-merge' ) {
 			$panel.append( buildLinkedExistingCategoryReview() );
 		}
@@ -3120,7 +3120,7 @@
 			shouldShowCategoryTextInput() ? buildCategoryTextInput( categoryText ) : $( '<span>' ),
 			mode === 'open-existing' ? $( '<span>' ) : buildCandidateDebugPanel()
 		);
-		$( '#CommonsCatVersion' ).detach();
+		$( '#CatapultVersion' ).detach();
 		$shell.append(
 			buildPanelActions( mode ),
 			buildVersionFooter()
@@ -3129,7 +3129,7 @@
 
 	function buildPanelActions( mode ) {
 		return $( '<div>', {
-			id: 'CommonsCatPanelActions'
+			id: 'CatapultPanelActions'
 		} ).css( {
 			alignItems: 'center',
 			background: '#fff',
@@ -3141,7 +3141,7 @@
 			padding: '8px 12px'
 		} ).append(
 			makeButton( {
-				id: 'CommonsCatPrimaryAction',
+				id: 'CatapultPrimaryAction',
 				label: primaryActionLabel(),
 				icon: primaryActionIcon(),
 				invisibleLabel: mode === 'open-existing',
@@ -3294,7 +3294,7 @@
 			marginTop: '8px'
 		} ).append(
 			$( '<div>' ).append(
-				radioOption( 'CommonsCatExistingActionLink', !state.disambiguateUnlinkedExistingCategory, 'Link existing category', function () {
+				radioOption( 'CatapultExistingActionLink', !state.disambiguateUnlinkedExistingCategory, 'Link existing category', function () {
 					state.disambiguateUnlinkedExistingCategory = false;
 					state.unlinkedDisambiguationTitle = '';
 					state.currentItemDisambiguationTitle = '';
@@ -3306,7 +3306,7 @@
 					renderSuggestions();
 				} )
 			),
-			radioOption( 'CommonsCatExistingActionDisambiguate', state.disambiguateUnlinkedExistingCategory, 'Disambiguate; move existing content first', function () {
+			radioOption( 'CatapultExistingActionDisambiguate', state.disambiguateUnlinkedExistingCategory, 'Disambiguate; move existing content first', function () {
 				var existingTarget;
 				var currentTarget;
 
@@ -3596,11 +3596,11 @@
 		return $( '<div>' ).css( {
 			marginTop: '8px'
 		} ).append(
-			radioOption( 'CommonsCatTargetActionMerge', state.mergeTargetCategoryConflict, 'Merge these items', function () {
+			radioOption( 'CatapultTargetActionMerge', state.mergeTargetCategoryConflict, 'Merge these items', function () {
 				state.mergeTargetCategoryConflict = true;
 				renderSuggestions();
 			} ),
-			radioOption( 'CommonsCatTargetActionDisambiguate', !state.mergeTargetCategoryConflict, 'Disambiguate; move existing category first', function () {
+			radioOption( 'CatapultTargetActionDisambiguate', !state.mergeTargetCategoryConflict, 'Disambiguate; move existing category first', function () {
 				state.mergeTargetCategoryConflict = false;
 				if ( !state.targetCategoryMoveTargetTitle ) {
 					state.targetCategoryMoveTargetTitle = state.targetCategoryMoveTarget || '';
@@ -3623,14 +3623,14 @@
 		return $( '<div>' ).css( {
 			marginTop: '8px'
 		} ).append(
-			radioOption( 'CommonsCatLinkedActionMerge', state.mergeLinkedExistingCategory, 'Merge these items', function () {
+			radioOption( 'CatapultLinkedActionMerge', state.mergeLinkedExistingCategory, 'Merge these items', function () {
 				state.mergeLinkedExistingCategory = true;
 				state.personCategory = state.originalPersonCategory;
 				state.personCategoryExists = true;
 				state.personCategoryWikibaseItem = state.originalPersonCategoryWikibaseItem;
 				renderSuggestions();
 			} ),
-			radioOption( 'CommonsCatLinkedActionDisambiguate', !state.mergeLinkedExistingCategory, 'Disambiguate; move existing category first', function () {
+			radioOption( 'CatapultLinkedActionDisambiguate', !state.mergeLinkedExistingCategory, 'Disambiguate; move existing category first', function () {
 				state.mergeLinkedExistingCategory = false;
 				if ( !state.linkedMoveTargetTitle ) {
 					state.linkedMoveTargetTitle = state.personCategoryMoveTarget || '';
@@ -3651,9 +3651,9 @@
 		} ).append(
 			$( '<input>', {
 				id: id,
-				name: id.indexOf( 'CommonsCatLinkedAction' ) === 0 ?
-					'CommonsCatLinkedAction' :
-					'CommonsCatExistingAction',
+				name: id.indexOf( 'CatapultLinkedAction' ) === 0 ?
+					'CatapultLinkedAction' :
+					'CatapultExistingAction',
 				type: 'radio',
 				checked: checked
 			} ).on( 'change', function () {
@@ -3806,7 +3806,7 @@
 			$( '<input>', {
 				type: 'text',
 				value: currentValue,
-				list: 'CommonsCatLinkedMoveTargetOptions'
+				list: 'CatapultLinkedMoveTargetOptions'
 			} ).css( {
 				boxSizing: 'border-box',
 				minWidth: '360px',
@@ -3815,7 +3815,7 @@
 				updateLinkedMoveTarget( this.value );
 			} ),
 			$( '<datalist>' )
-				.attr( 'id', 'CommonsCatLinkedMoveTargetOptions' )
+				.attr( 'id', 'CatapultLinkedMoveTargetOptions' )
 				.append( options.map( function ( option ) {
 					return $( '<option>', {
 						value: option.data,
@@ -3859,7 +3859,7 @@
 			$( '<input>', {
 				type: 'text',
 				value: currentValue,
-				list: 'CommonsCatTargetConflictMoveTargetOptions'
+				list: 'CatapultTargetConflictMoveTargetOptions'
 			} ).css( {
 				boxSizing: 'border-box',
 				minWidth: '360px',
@@ -3868,7 +3868,7 @@
 				updateTargetConflictMoveTarget( this.value );
 			} ),
 			$( '<datalist>' )
-				.attr( 'id', 'CommonsCatTargetConflictMoveTargetOptions' )
+				.attr( 'id', 'CatapultTargetConflictMoveTargetOptions' )
 				.append( options.map( function ( option ) {
 					return $( '<option>', {
 						value: option.data,
@@ -3935,7 +3935,7 @@
 			$( '<input>', {
 				type: 'text',
 				value: currentValue,
-				list: 'CommonsCatTargetConflictCurrentItemOptions'
+				list: 'CatapultTargetConflictCurrentItemOptions'
 			} ).css( {
 				boxSizing: 'border-box',
 				minWidth: '360px',
@@ -3944,7 +3944,7 @@
 				updateTargetConflictCurrentItem( this.value );
 			} ),
 			$( '<datalist>' )
-				.attr( 'id', 'CommonsCatTargetConflictCurrentItemOptions' )
+				.attr( 'id', 'CatapultTargetConflictCurrentItemOptions' )
 				.append( options.map( function ( option ) {
 					return $( '<option>', {
 						value: option.data,
@@ -4022,7 +4022,7 @@
 			$( '<input>', {
 				type: 'text',
 				value: currentValue,
-				list: 'CommonsCatUnlinkedDisambiguationOptions'
+				list: 'CatapultUnlinkedDisambiguationOptions'
 			} ).css( {
 				boxSizing: 'border-box',
 				minWidth: '360px',
@@ -4031,7 +4031,7 @@
 				updateUnlinkedDisambiguation( this.value );
 			} ),
 			$( '<datalist>' )
-				.attr( 'id', 'CommonsCatUnlinkedDisambiguationOptions' )
+				.attr( 'id', 'CatapultUnlinkedDisambiguationOptions' )
 				.append( options.map( function ( option ) {
 					return $( '<option>', {
 						value: option.data,
@@ -4100,7 +4100,7 @@
 			$( '<input>', {
 				type: 'text',
 				value: currentValue,
-				list: 'CommonsCatCurrentItemDisambiguationOptions'
+				list: 'CatapultCurrentItemDisambiguationOptions'
 			} ).css( {
 				boxSizing: 'border-box',
 				minWidth: '360px',
@@ -4109,7 +4109,7 @@
 				updateCurrentItemDisambiguation( this.value );
 			} ),
 			$( '<datalist>' )
-				.attr( 'id', 'CommonsCatCurrentItemDisambiguationOptions' )
+				.attr( 'id', 'CatapultCurrentItemDisambiguationOptions' )
 				.append( options.map( function ( option ) {
 					return $( '<option>', {
 						value: option.data,
@@ -4302,7 +4302,7 @@
 			$( '<input>', {
 				type: 'text',
 				value: currentValue,
-				list: 'CommonsCatLinkedDisambiguationOptions'
+				list: 'CatapultLinkedDisambiguationOptions'
 			} ).css( {
 				boxSizing: 'border-box',
 				minWidth: '360px',
@@ -4311,7 +4311,7 @@
 				updateLinkedDisambiguation( this.value );
 			} ),
 			$( '<datalist>' )
-				.attr( 'id', 'CommonsCatLinkedDisambiguationOptions' )
+				.attr( 'id', 'CatapultLinkedDisambiguationOptions' )
 				.append( options.map( function ( option ) {
 					return $( '<option>', {
 						value: option.data,
@@ -4496,7 +4496,7 @@
 		groups.forEach( function ( group ) {
 			var groupId = group[ 0 ].groupId;
 			var candidate = selectedParentCandidate( group );
-			var checkboxId = 'CommonsCatParentCategory-' + groupId.replace( /[^A-Za-z0-9_-]/g, '-' );
+			var checkboxId = 'CatapultParentCategory-' + groupId.replace( /[^A-Za-z0-9_-]/g, '-' );
 
 			if ( !candidate ) {
 				return;
@@ -4535,7 +4535,7 @@
 				rows: 8,
 				autosize: false
 			} );
-			input.$input.attr( 'id', 'CommonsCatText' );
+			input.$input.attr( 'id', 'CatapultText' );
 			input.$element.css( {
 				width: '100%'
 			} );
@@ -4546,7 +4546,7 @@
 		}
 
 		return $( '<textarea>', {
-			id: 'CommonsCatText',
+			id: 'CatapultText',
 			rows: 8
 		} ).css( {
 			boxSizing: 'border-box',
@@ -4571,7 +4571,7 @@
 		$details = $( '<details>' ).css( {
 			marginTop: '8px'
 		} ).append(
-			$( '<summary>' ).text( 'commonsCat debug: category candidates' ),
+			$( '<summary>' ).text( 'catapult debug: category candidates' ),
 			$( '<pre>' ).css( {
 				background: '#f8f9fa',
 				border: '1px solid #eaecf0',
@@ -4606,11 +4606,11 @@
 	}
 
 	function setCategoryTextValue( value ) {
-		$( '#CommonsCatText' ).val( value ).trigger( 'change' );
+		$( '#CatapultText' ).val( value ).trigger( 'change' );
 	}
 
 	function getCategoryTextValue() {
-		var value = $( '#CommonsCatText' ).val();
+		var value = $( '#CatapultText' ).val();
 
 		return typeof value === 'string' ? value : buildCategoryText();
 	}
@@ -4631,7 +4631,7 @@
 			if ( config.id ) {
 				button.$element.attr( 'id', config.id );
 			}
-			if ( config.id === 'CommonsCatPrimaryAction' ) {
+			if ( config.id === 'CatapultPrimaryAction' ) {
 				state.primaryActionButton = button;
 				state.primaryActionElement = button.$element;
 			}
@@ -4649,7 +4649,7 @@
 			title: config.title,
 			disabled: !!config.disabled
 		} ).on( 'click', handler );
-		if ( config.id === 'CommonsCatPrimaryAction' ) {
+		if ( config.id === 'CatapultPrimaryAction' ) {
 			state.primaryActionButton = null;
 			state.primaryActionElement = button;
 		}
@@ -4904,7 +4904,7 @@
 			{ label: 'Add Commons category statement', status: 'waiting' }
 		);
 
-		$( '#CommonsCatPanel button' ).prop( 'disabled', true );
+		$( '#CatapultPanel button' ).prop( 'disabled', true );
 		renderProgressPanel( 'Working on ' + state.personCategory + '...', steps );
 		state.commonsApi.postWithToken( 'csrf', {
 			action: 'edit',
@@ -4934,7 +4934,7 @@
 			state.hasCommonsSitelink = true;
 			state.hasPersonCommonsCategory = true;
 			model.workflow.phase = 'complete';
-			$( '#CommonsCatMultilingualSitesButton' ).remove();
+			$( '#CatapultMultilingualSitesButton' ).remove();
 			renderPanel( sentence( 'Created and linked ', commonsCategoryLink( state.personCategory ), '.' ) );
 		}, function ( code, data ) {
 			model.workflow.phase = 'error';
@@ -4953,7 +4953,7 @@
 	}
 
 	function linkExistingCommonsCategory() {
-		$( '#CommonsCatPanel button' ).prop( 'disabled', true );
+		$( '#CatapultPanel button' ).prop( 'disabled', true );
 		renderProgressPanel( 'Working on ' + state.personCategory + '...', [
 			{ label: 'Set Commons sitelink on Wikidata item', status: 'working' },
 			{ label: 'Add Commons category statement', status: 'waiting' }
@@ -4962,7 +4962,7 @@
 			state.hasCommonsSitelink = true;
 			state.hasPersonCommonsCategory = true;
 			model.workflow.phase = 'complete';
-			$( '#CommonsCatMultilingualSitesButton' ).remove();
+			$( '#CatapultMultilingualSitesButton' ).remove();
 			renderPanel( sentence( 'Linked ', commonsCategoryLink( state.personCategory ), ' to this Wikidata item.' ) );
 		}, function ( code, data ) {
 			model.workflow.phase = 'error';
@@ -5034,7 +5034,7 @@
 			action: 'edit',
 			title: pending.title,
 			text: text,
-			summary: 'Replacing category redirect with category disambiguation page using [[User:1VeertjeBot/commonsCat.js|commonsCat]]',
+			summary: 'Replacing category redirect with category disambiguation page using [[User:1Veertje/Catapult/app.js|Catapult]]',
 			format: 'json'
 		} );
 	}
@@ -5082,7 +5082,7 @@
 		}
 
 		renderPanel( 'Done.' );
-		$( '#CommonsCatPanelBody' ).append(
+		$( '#CatapultPanelBody' ).append(
 			$list,
 			buildDisambiguationManualFollowUp()
 		);
@@ -5143,7 +5143,7 @@
 		state.personCategoryMoveTarget = existingContentTarget;
 		state.personCategory = currentItemTarget;
 		state.personCategoryExists = false;
-		$( '#CommonsCatPanel button' ).prop( 'disabled', true );
+		$( '#CatapultPanel button' ).prop( 'disabled', true );
 		renderProgressPanel( 'Disambiguating ' + state.originalPersonCategory + '...', [
 			{ label: 'Move existing Commons category', status: 'working' },
 			{ label: 'Write Commons disambiguation category', status: 'waiting' },
@@ -5173,7 +5173,7 @@
 				state.disambiguationCategoryItem = itemId;
 				state.hasCommonsSitelink = true;
 				state.hasPersonCommonsCategory = true;
-				$( '#CommonsCatMultilingualSitesButton' ).remove();
+				$( '#CatapultMultilingualSitesButton' ).remove();
 				renderDisambiguationSuccess( itemId );
 			}, function ( code, data ) {
 				model.workflow.phase = 'error';
@@ -5349,7 +5349,7 @@
 
 		state.personCategoryMoveTarget = plan.existingPerson.targetCategory;
 		state.personCategory = plan.currentPerson.targetCategory;
-		$( '#CommonsCatPanel button' ).prop( 'disabled', true );
+		$( '#CatapultPanel button' ).prop( 'disabled', true );
 		renderProgressPanel( 'Disambiguating ' + state.originalPersonCategory + '...', [
 			{ label: 'Move existing Commons category', status: 'working' },
 			{ label: 'Write Commons disambiguation category', status: 'waiting' },
@@ -5394,7 +5394,7 @@
 				state.disambiguationCategoryItem = itemId;
 				state.hasCommonsSitelink = true;
 				state.hasPersonCommonsCategory = true;
-				$( '#CommonsCatMultilingualSitesButton' ).remove();
+				$( '#CatapultMultilingualSitesButton' ).remove();
 				renderDisambiguationSuccess( itemId );
 			}, function ( code, data ) {
 				model.workflow.phase = 'error';
@@ -5412,7 +5412,7 @@
 			action: 'move',
 			from: state.originalPersonCategory,
 			to: state.personCategoryMoveTarget,
-			reason: 'Disambiguating Commons category using [[User:1VeertjeBot/commonsCat.js|commonsCat]]',
+			reason: 'Disambiguating Commons category using [[User:1Veertje/Catapult/app.js|Catapult]]',
 			movetalk: 1,
 			format: 'json'
 		} );
@@ -5599,7 +5599,7 @@
 				action: 'edit',
 				title: fileTitle,
 				text: nextText,
-				summary: 'Updating category after Commons category disambiguation using [[User:1VeertjeBot/commonsCat.js|commonsCat]]',
+				summary: 'Updating category after Commons category disambiguation using [[User:1Veertje/Catapult/app.js|Catapult]]',
 				format: 'json'
 			} );
 		} );
@@ -5622,7 +5622,7 @@
 				action: 'edit',
 				title: fileTitle,
 				text: nextText,
-				summary: 'Updating image category after creating Commons category using [[User:1VeertjeBot/commonsCat.js|commonsCat]]',
+				summary: 'Updating image category after creating Commons category using [[User:1Veertje/Catapult/app.js|Catapult]]',
 				format: 'json'
 			} );
 		} );
@@ -5692,7 +5692,7 @@
 			assertuser: mw.config.get( 'wgUserName' ),
 			linksite: 'commonswiki',
 			linktitle: state.personCategoryMoveTarget,
-			summary: 'Updating Commons category after disambiguation by commonsCat',
+			summary: 'Updating Commons category after disambiguation by catapult',
 			format: 'json'
 		} ).then( updateConflictingItemCommonsCategoryStatement );
 	}
@@ -5712,7 +5712,7 @@
 				claim: claim.id,
 				snaktype: 'value',
 				value: JSON.stringify( categoryName ),
-				summary: 'Updating Commons category after category move by commonsCat',
+				summary: 'Updating Commons category after category move by catapult',
 				format: 'json'
 			} );
 		}
@@ -5723,7 +5723,7 @@
 			property: CONFIG.properties.commonsCategory,
 			snaktype: 'value',
 			value: JSON.stringify( categoryName ),
-			summary: 'Adding moved Commons category after disambiguation by commonsCat',
+			summary: 'Adding moved Commons category after disambiguation by catapult',
 			format: 'json'
 		} );
 	}
@@ -5765,7 +5765,7 @@
 				action: 'edit',
 				title: state.personCategory,
 				text: '{{Wikidata Infobox}}\n' + text.replace( /^\s+/, '' ),
-				summary: 'Adding {{Wikidata Infobox}} using [[User:1VeertjeBot/commonsCat.js|commonsCat]]',
+				summary: 'Adding {{Wikidata Infobox}} using [[User:1Veertje/Catapult/app.js|Catapult]]',
 				format: 'json'
 			} );
 		} );
@@ -5804,7 +5804,7 @@
 			action: 'edit',
 			title: state.originalPersonCategory,
 			text: text,
-			summary: 'Replacing category redirect with category disambiguation page using [[User:1VeertjeBot/commonsCat.js|commonsCat]]',
+			summary: 'Replacing category redirect with category disambiguation page using [[User:1Veertje/Catapult/app.js|Catapult]]',
 			format: 'json'
 		} );
 	}
@@ -5932,7 +5932,7 @@
 			assertuser: mw.config.get( 'wgUserName' ),
 			linksite: 'commonswiki',
 			linktitle: state.personCategory,
-			summary: 'Linking Commons category created by commonsCat',
+			summary: 'Linking Commons category created by catapult',
 			format: 'json'
 		} ).then( deferred.resolve, function ( code, data ) {
 			debugWarn( 'Could not set Commons sitelink', code, data );
@@ -5958,7 +5958,7 @@
 				claim: claim.id,
 				snaktype: 'value',
 				value: JSON.stringify( categoryName ),
-				summary: 'Updating Commons category linked by commonsCat',
+				summary: 'Updating Commons category linked by catapult',
 				format: 'json'
 			} ).then( deferred.resolve, function ( code, data ) {
 				debugWarn( 'Could not update Commons category statement', code, data );
@@ -5974,7 +5974,7 @@
 			property: CONFIG.properties.commonsCategory,
 			snaktype: 'value',
 			value: JSON.stringify( categoryName ),
-			summary: 'Adding Commons category created by commonsCat',
+			summary: 'Adding Commons category created by catapult',
 			format: 'json'
 		} ).then( deferred.resolve, function ( code, data ) {
 			debugWarn( 'Could not add Commons category statement', code, data );
@@ -6103,9 +6103,9 @@
 	function rejectInternalError( message ) {
 		var deferred = $.Deferred();
 
-		deferred.reject( 'commonscat-internal-error', {
+		deferred.reject( 'catapult-internal-error', {
 			error: {
-				code: 'commonscat-internal-error',
+				code: 'catapult-internal-error',
 				info: message
 			}
 		} );
@@ -6118,7 +6118,7 @@
 			return;
 		}
 
-		console.warn.apply( console, [ '[commonsCat]' ].concat(
+		console.warn.apply( console, [ '[catapult]' ].concat(
 			Array.prototype.slice.call( arguments )
 		) );
 	}

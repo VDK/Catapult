@@ -1,17 +1,17 @@
-// <nowiki>
+﻿// <nowiki>
 //    ______      __                    ____ 
 //   / ____/___ _/ /_____ _____  __  __/ / /_
 //  / /   / __ `/ __/ __ `/ __ \/ / / / / __/
 // / /___/ /_/ / /_/ /_/ / /_/ / /_/ / / /_  
 // \____/\__,_/\__/\__,_/ .___/\__,_/_/\__/  
 //                     /_/                    
-// commonsCat.js
-// Bootstrap for User:1VeertjeBot/commonsCat/app.js
+// Catapult Commons loader
+// Bootstrap for User:1Veertje/Catapult/app.js
 ( function ( mw, $ ) {
 	'use strict';
 
-	var VERSION = '2026-06-21.1';
-	var BASE_PAGE = 'User:1VeertjeBot/commonsCat/';
+	var VERSION = '2026-06-24.1';
+	var BASE_PAGE = 'User:1Veertje/Catapult/';
 
 	function rawUrl( page, contentType ) {
 		return mw.util.getUrl( BASE_PAGE + page, {
@@ -23,17 +23,17 @@
 
 	function showLoadError() {
 		mw.notify(
-			'commonsCat ' + VERSION + ' could not be loaded. Reload the page or check User:1VeertjeBot/commonsCat/app.js.',
+			'Catapult ' + VERSION + ' could not be loaded. Reload the page or check User:1Veertje/Catapult/app.js.',
 			{
-				title: 'commonsCat',
+				title: 'Catapult',
 				type: 'error'
 			}
 		);
 	}
 
 	function verifyAppVersion() {
-		if ( !window.commonsCat || window.commonsCat.appVersion !== VERSION ) {
-			throw new Error( 'commonsCat bootstrap/app version mismatch' );
+		if ( !window.catapult || window.catapult.appVersion !== VERSION ) {
+			throw new Error( 'Catapult bootstrap/app version mismatch' );
 		}
 	}
 

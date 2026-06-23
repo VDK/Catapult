@@ -2,23 +2,28 @@
 
 Catapult is a Wikidata gadget for creating, linking, and disambiguating Wikimedia Commons categories from Wikidata data.
 
-The live gadget is published as:
+The Wikidata-side gadget files are:
 
-- `User:1VeertjeBot/commonsCat.js`
-- `User:1VeertjeBot/commonsCat/app.js`
-- `User:1VeertjeBot/commonsCat/styles.css`
-- `User:1VeertjeBot/commonsCat/mappings.json`
+- `User:1Veertje/Catapult/app.js`
+- `User:1Veertje/Catapult/styles.css`
+- `User:1Veertje/Catapult/mappings.json`
+
+The optional Commons-side loader is separate:
+
+- `User:1Veertje/Catapult-loader.js`
+
+That loader exists only to run Catapult while staying on Commons. It is not part of the core Wikidata gadget flow.
 
 ## Files
 
-- `commonsCat.js` — small bootstrap loader.
-- `commonsCat/app.js` — main gadget application.
-- `commonsCat/styles.css` — interface styling.
-- `commonsCat/mappings.json` — category and occupation mappings.
+- `catapult/app.js` — main gadget application.
+- `catapult/styles.css` — interface styling.
+- `catapult/mappings.json` — category and occupation mappings.
+- `commons/catapult-loader.js` — optional Commons bootstrap loader.
 
 ## Validation
 
 ```powershell
-node --check commonsCat.js
-node --check commonsCat\app.js
+node --check catapult/app.js
+node --check commons/catapult-loader.js
 ```
