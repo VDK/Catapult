@@ -1,0 +1,7 @@
+pywikibot_upload_config/user-password.py
+pywikibot_upload_config/*.lwp
+pywikibot_upload_config/apicache/
+pywikibot_upload_config/throttle.ctrl
+__pycache__/
+*.pyc
+.env
