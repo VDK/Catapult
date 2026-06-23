@@ -51,7 +51,7 @@
 		lateCandidateCheckTimeout: 1200,
 		version: '2026-06-21.1',
 		summary: 'Creating Commons category from Wikidata using [[User:1VeertjeBot/commonsCat.js|commonsCat]]',
-		debug: true
+		debug: window.location.search.indexOf( 'commonsCatDebug=1' ) !== -1
 	};
 
 	window.commonsCat = window.commonsCat || {};
