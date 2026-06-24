@@ -5,4 +5,4 @@ pywikibot_upload_config/throttle.ctrl
 __pycache__/
 *.pyc
 .env
-upload_commonscat_to_*.py
+upload_catapult_to_*.py

@@ -1,17 +1,25 @@
 ﻿// <nowiki>
-//    ______      __                    ____ 
+//    ______      __                    ____
 //   / ____/___ _/ /_____ _____  __  __/ / /_
 //  / /   / __ `/ __/ __ `/ __ \/ / / / / __/
-// / /___/ /_/ / /_/ /_/ / /_/ / /_/ / / /_  
-// \____/\__,_/\__/\__,_/ .___/\__,_/_/\__/  
-//                     /_/                    
-// Catapult Commons loader
-// Bootstrap for User:1Veertje/Catapult/app.js
+// / /___/ /_/ / /_/ /_/ / /_/ / /_/ / / /_
+// \____/\__,_/\__/\__,_/ .___/\__,_/_/\__/
+//                     /_/
+// Catapult.js
+// @author Vera de Kok ([[User:1Veertje]])
+// @version 2026-06-24.1
+// License: GNU General Public License
+//
+// Catapult helps propel data from Wikidata to Wikimedia Commons
+// by assisting with the creation and disambiguation of Commons categories.
+//
+// Sitelink move ordering and T221571 delay follow the Wikidata Move gadget.
+// https://github.com/VDK/Catapult
 ( function ( mw, $ ) {
 	'use strict';
 
 	var VERSION = '2026-06-24.1';
-	var BASE_PAGE = 'User:1Veertje/Catapult/';
+	var BASE_PAGE = 'User:1VeertjeBot/catapult/';
 
 	function rawUrl( page, contentType ) {
 		return mw.util.getUrl( BASE_PAGE + page, {
@@ -23,7 +31,7 @@
 
 	function showLoadError() {
 		mw.notify(
-			'Catapult ' + VERSION + ' could not be loaded. Reload the page or check User:1Veertje/Catapult/app.js.',
+			'Catapult ' + VERSION + ' could not be loaded. Reload the page or check ' + BASE_PAGE + 'app.js.',
 			{
 				title: 'Catapult',
 				type: 'error'

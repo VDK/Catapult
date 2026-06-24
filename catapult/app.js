@@ -1,10 +1,5 @@
-﻿// <nowiki>
-// Catapult/app.js
-// License: GNU General Public License
-// Author: Vera de Kok (1Veertje)
-// Date: 2026-06-05
-// Wikidata gadget for creating Commons person categories from Wikidata data.
-// Sitelink move ordering and T221571 delay follow the Wikidata Move gadget.
+// <nowiki>
+// See [[User:1VeertjeBot/catapult.js]] for credits and license.
 ( function ( mw, $ ) {
 	'use strict';
 
@@ -26,7 +21,7 @@
 			categoryContains: 'P4224',
 			categoryCombinesTopics: 'P971'
 		},
-		mappingPage: 'User:1Veertje/Catapult/mappings.json',
+		mappingPage: 'User:1VeertjeBot/catapult/mappings.json',
 		items: {
 			human: 'Q5',
 			male: 'Q6581097',
@@ -50,7 +45,7 @@
 		maxCountryCount: 6,
 		lateCandidateCheckTimeout: 1200,
 		version: '2026-06-24.1',
-		summary: 'Creating Commons category from Wikidata using [[User:1Veertje/Catapult/app.js|Catapult]]',
+		summary: 'Creating Commons category from Wikidata using [[User:1VeertjeBot/catapult/app.js|Catapult]]',
 		debug: window.location.search.indexOf( 'catapultDebug=1' ) !== -1
 	};
 
@@ -1372,7 +1367,7 @@
 			action: 'edit',
 			title: hub.baseTitle,
 			text: buildDisambiguationCategoryText( hub.baseText, links ),
-			summary: 'Creating or updating Commons category disambiguation page using [[User:1Veertje/Catapult/app.js|Catapult]]',
+			summary: 'Creating or updating Commons category disambiguation page using [[User:1VeertjeBot/catapult/app.js|Catapult]]',
 			format: 'json'
 		};
 
@@ -1387,7 +1382,7 @@
 			action: 'move',
 			from: fromTitle,
 			to: normalizeCategoryTitle( toTitle ),
-			reason: 'Disambiguating Commons category using [[User:1Veertje/Catapult/app.js|Catapult]]',
+			reason: 'Disambiguating Commons category using [[User:1VeertjeBot/catapult/app.js|Catapult]]',
 			movetalk: 1,
 			format: 'json'
 		} );
@@ -5034,7 +5029,7 @@
 			action: 'edit',
 			title: pending.title,
 			text: text,
-			summary: 'Replacing category redirect with category disambiguation page using [[User:1Veertje/Catapult/app.js|Catapult]]',
+			summary: 'Replacing category redirect with category disambiguation page using [[User:1VeertjeBot/catapult/app.js|Catapult]]',
 			format: 'json'
 		} );
 	}
@@ -5412,7 +5407,7 @@
 			action: 'move',
 			from: state.originalPersonCategory,
 			to: state.personCategoryMoveTarget,
-			reason: 'Disambiguating Commons category using [[User:1Veertje/Catapult/app.js|Catapult]]',
+			reason: 'Disambiguating Commons category using [[User:1VeertjeBot/catapult/app.js|Catapult]]',
 			movetalk: 1,
 			format: 'json'
 		} );
@@ -5599,7 +5594,7 @@
 				action: 'edit',
 				title: fileTitle,
 				text: nextText,
-				summary: 'Updating category after Commons category disambiguation using [[User:1Veertje/Catapult/app.js|Catapult]]',
+				summary: 'Updating category after Commons category disambiguation using [[User:1VeertjeBot/catapult/app.js|Catapult]]',
 				format: 'json'
 			} );
 		} );
@@ -5622,7 +5617,7 @@
 				action: 'edit',
 				title: fileTitle,
 				text: nextText,
-				summary: 'Updating image category after creating Commons category using [[User:1Veertje/Catapult/app.js|Catapult]]',
+				summary: 'Updating image category after creating Commons category using [[User:1VeertjeBot/catapult/app.js|Catapult]]',
 				format: 'json'
 			} );
 		} );
@@ -5765,7 +5760,7 @@
 				action: 'edit',
 				title: state.personCategory,
 				text: '{{Wikidata Infobox}}\n' + text.replace( /^\s+/, '' ),
-				summary: 'Adding {{Wikidata Infobox}} using [[User:1Veertje/Catapult/app.js|Catapult]]',
+				summary: 'Adding {{Wikidata Infobox}} using [[User:1VeertjeBot/catapult/app.js|Catapult]]',
 				format: 'json'
 			} );
 		} );
@@ -5804,7 +5799,7 @@
 			action: 'edit',
 			title: state.originalPersonCategory,
 			text: text,
-			summary: 'Replacing category redirect with category disambiguation page using [[User:1Veertje/Catapult/app.js|Catapult]]',
+			summary: 'Replacing category redirect with category disambiguation page using [[User:1VeertjeBot/catapult/app.js|Catapult]]',
 			format: 'json'
 		} );
 	}
